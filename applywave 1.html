@@ -1,0 +1,570 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ApplyWave - The Home of International Students</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.js"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;600;700;800&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Open Sans', sans-serif;
+        }
+
+        body {
+            overflow-x: hidden;
+        }
+
+        .hero-section {
+            background: linear-gradient(135deg, #1e88e5 0%, #1976d2 100%);
+            background-image: url('https://images.unsplash.com/photo-1514565131-fce0801e5785?w=1600'),
+                            linear-gradient(135deg, rgba(30, 136, 229, 0.85) 0%, rgba(25, 118, 210, 0.85) 100%);
+            background-size: cover;
+            background-position: center;
+            background-blend-mode: overlay;
+            min-height: 650px;
+            position: relative;
+        }
+
+        .nav-bar {
+            background: rgba(255, 255, 255, 0.98);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .logo {
+            font-size: 28px;
+            font-weight: 700;
+            color: #1976d2;
+        }
+
+        .logo-wave {
+            color: #ff9800;
+            font-weight: 800;
+        }
+
+        .study-level-card {
+            background: white;
+            border-radius: 8px;
+            padding: 20px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+        }
+
+        .study-level-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+            border-color: #1976d2;
+        }
+
+        .study-level-card.active {
+            background: #1fb6ff;
+            color: white;
+            border-color: #1fb6ff;
+        }
+
+        .study-level-card i {
+            font-size: 36px;
+            margin-bottom: 10px;
+            color: #1976d2;
+        }
+
+        .study-level-card.active i {
+            color: white;
+        }
+
+        .search-input {
+            border: none;
+            outline: none;
+            padding: 18px 20px;
+            font-size: 16px;
+            border-radius: 4px;
+            width: 100%;
+        }
+
+        .search-btn {
+            background: #1fb6ff;
+            color: white;
+            padding: 18px 50px;
+            border: none;
+            border-radius: 4px;
+            font-size: 18px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .search-btn:hover {
+            background: #1aa3e6;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(31, 182, 255, 0.4);
+        }
+
+        .help-link {
+            color: white;
+            text-decoration: none;
+            font-size: 16px;
+            margin-top: 15px;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .help-link i {
+            background: #ff9800;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+        }
+
+        .content-section {
+            background: white;
+            padding: 60px 20px;
+        }
+
+        .section-title {
+            color: #1fb6ff;
+            font-size: 42px;
+            font-weight: 700;
+            margin-bottom: 20px;
+            line-height: 1.2;
+        }
+
+        .section-text {
+            color: #666;
+            font-size: 18px;
+            line-height: 1.8;
+            margin-bottom: 15px;
+        }
+
+        .video-container {
+            position: relative;
+            background: #000;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+        }
+
+        .video-placeholder {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background-image: url('https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=800'),
+                            linear-gradient(135deg, rgba(102, 126, 234, 0.8) 0%, rgba(118, 75, 162, 0.8) 100%);
+            background-size: cover;
+            background-position: center;
+            background-blend-mode: overlay;
+            height: 400px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+
+        .video-placeholder::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 100px;
+            height: 100px;
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+        }
+
+        .play-button {
+            position: relative;
+            z-index: 1;
+            width: 80px;
+            height: 80px;
+            background: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .play-button:hover {
+            transform: scale(1.1);
+        }
+
+        .play-button i {
+            color: #1976d2;
+            font-size: 32px;
+            margin-left: 5px;
+        }
+
+        .map-container {
+            height: 400px;
+            width: 100%;
+            border-radius: 0;
+            margin-top: -5px;
+        }
+
+        .footer {
+            background: #0a2540;
+            color: white;
+            padding: 50px 20px 30px;
+        }
+
+        .footer-logo {
+            font-size: 24px;
+            font-weight: 700;
+            color: white;
+            margin-bottom: 20px;
+        }
+
+        .footer-links {
+            color: #8b9bb3;
+            text-decoration: none;
+            display: block;
+            margin-bottom: 10px;
+            transition: color 0.3s ease;
+        }
+
+        .footer-links:hover {
+            color: #1fb6ff;
+        }
+
+        .footer-heading {
+            font-size: 14px;
+            font-weight: 700;
+            color: white;
+            margin-bottom: 15px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .social-icon {
+            color: white;
+            font-size: 20px;
+            margin-right: 15px;
+            transition: color 0.3s ease;
+        }
+
+        .social-icon:hover {
+            color: #1fb6ff;
+        }
+
+        .copyright {
+            border-top: 1px solid rgba(139, 155, 179, 0.2);
+            margin-top: 40px;
+            padding-top: 30px;
+            text-align: center;
+            color: #8b9bb3;
+        }
+
+        .nav-icon {
+            color: #1976d2;
+            font-size: 20px;
+            margin: 0 8px;
+            cursor: pointer;
+        }
+
+        .notification-badge {
+            background: #ff9800;
+            color: white;
+            font-size: 11px;
+            padding: 2px 6px;
+            border-radius: 10px;
+            position: absolute;
+            top: -5px;
+            right: -5px;
+        }
+
+        .btn-orange {
+            background: #ff9800;
+            color: white;
+            padding: 10px 30px;
+            border: none;
+            border-radius: 4px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .btn-orange:hover {
+            background: #f57c00;
+            transform: translateY(-2px);
+        }
+
+        .btn-cyan {
+            background: #1fb6ff;
+            color: white;
+            padding: 10px 30px;
+            border: none;
+            border-radius: 4px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .btn-cyan:hover {
+            background: #1aa3e6;
+            transform: translateY(-2px);
+        }
+
+        .dashboard-link {
+            background: #1976d2;
+            color: white;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            font-size: 24px;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        }
+
+        .dashboard-link:hover {
+            background: #1565c0;
+            transform: scale(1.1);
+            box-shadow: 0 6px 12px rgba(0,0,0,0.3);
+        }
+
+        @media (max-width: 768px) {
+            .study-level-cards {
+                flex-direction: column;
+            }
+            
+            .section-title {
+                font-size: 32px;
+            }
+        }
+    </style>
+</head>
+ <script src="https://app.wotnot.io/chat-widget/7SP7fNH8ywDP035752079957eeWcHMH0.js" defer></script>
+<body>
+    <!-- Navigation -->
+    <nav class="nav-bar fixed w-full top-0 z-50" style="position: fixed; width: 100%; top: 0; z-index: 50;">
+        <div style="max-width: 1280px; margin: 0 auto; padding: 0 24px;">
+            <div style="display: flex; justify-content: space-between; align-items: center; padding: 16px 0;">
+                <div class="logo">
+                    <span class="logo-wave">~</span>applywave
+                </div>
+                <div style="display: flex; align-items: center; gap: 16px;">
+                    <a href="ApplyWaveDashBoard.html" class="dashboard-link" title="Go to Dashboard">
+                        <i class="fas fa-th-large"></i>
+                    </a>
+                    <div style="position: relative;">
+                        <i class="nav-icon fas fa-file-alt"></i>
+                    </div>
+                    <div style="position: relative;">
+                        <i class="nav-icon fas fa-bookmark"></i>
+                    </div>
+                    <div style="position: relative;">
+                        <i class="nav-icon fas fa-clipboard-list"></i>
+                        <span class="notification-badge">0</span>
+                    </div>
+                    <button class="btn-orange">LOG IN</button>
+                    <button class="btn-cyan">SIGN UP</button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero-section" style="padding-top: 128px; padding-bottom: 64px; padding-left: 24px; padding-right: 24px;">
+        <div style="max-width: 1280px; margin: 0 auto;">
+            <div style="text-align: center; margin-bottom: 48px;">
+                <h1 style="font-size: 3.75rem; font-weight: bold; color: white; margin-bottom: 16px; line-height: 1.2;">
+                    The Home of International Students
+                </h1>
+            </div>
+
+            <!-- Study Level Selection -->
+            <div style="margin-bottom: 32px;">
+                <div style="display: flex; align-items: center; justify-content: center; margin-bottom: 24px;">
+                    <i class="fas fa-question-circle" style="color: white; font-size: 1.125rem; margin-right: 12px;"></i>
+                    <span style="color: white; font-size: 1.125rem; font-weight: 600;">What study level should I choose?</span>
+                </div>
+
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 16px; max-width: 1000px; margin: 0 auto;">
+                    <div class="study-level-card">
+                        <i class="fas fa-school"></i>
+                        <div style="font-weight: 600; font-size: 0.875rem;">HIGH SCHOOL</div>
+                    </div>
+                    <div class="study-level-card">
+                        <i class="fas fa-certificate"></i>
+                        <div style="font-weight: 600; font-size: 0.875rem;">CERTIFICATE</div>
+                    </div>
+                    <div class="study-level-card">
+                        <i class="fas fa-diploma"></i>
+                        <div style="font-weight: 600; font-size: 0.875rem;">ASSOCIATE'S DEGREE</div>
+                    </div>
+                    <div class="study-level-card active">
+                        <i class="fas fa-book"></i>
+                        <div style="font-weight: 600; font-size: 0.875rem;">BACHELOR'S DEGREE</div>
+                    </div>
+                    <div class="study-level-card">
+                        <i class="fas fa-user-graduate"></i>
+                        <div style="font-weight: 600; font-size: 0.875rem;">MASTER'S DEGREE</div>
+                    </div>
+                    <div class="study-level-card">
+                        <i class="fas fa-language"></i>
+                        <div style="font-weight: 600; font-size: 0.875rem;">LANGUAGES</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Search Bar -->
+            <div style="max-width: 1000px; margin: 0 auto;">
+                <div style="display: grid; grid-template-columns: 5fr 5fr 2fr; gap: 16px;">
+                    <div>
+                        <input type="text" class="search-input" placeholder="What do you want to study?">
+                    </div>
+                    <div>
+                        <input type="text" class="search-input" placeholder="Where do you want to study?">
+                    </div>
+                    <div>
+                        <button class="search-btn" style="width: 100%;">SEARCH</button>
+                    </div>
+                </div>
+
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 24px;">
+                    <a href="#" class="help-link">
+                        <i class="fas fa-question"></i>
+                        <span>How to use Applywave</span>
+                    </a>
+                    <a href="#" class="help-link">
+                        <i class="fas fa-map-marked-alt"></i>
+                        <span>Map Search</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Content Section -->
+    <section class="content-section">
+        <div style="max-width: 1280px; margin: 0 auto; padding: 0 24px;">
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 48px; align-items: center;">
+                <div class="video-container">
+                    <div class="video-placeholder">
+                        <div class="play-button">
+                            <i class="fas fa-play"></i>
+                        </div>
+                    </div>
+                </div>
+
+                <div>
+                    <h2 class="section-title">Apply to Thousands of Programs in One Trusted Place</h2>
+                    <p class="section-text">
+                        Applywave is trusted by hundreds of Colleges, Universities, and High Schools around the world.
+                    </p>
+                    <p class="section-text">
+                        #FindYourFit and apply to your dream school in a few simple steps!
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Map Section -->
+    <div id="map" class="map-container"></div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div style="max-width: 1280px; margin: 0 auto; padding: 0 24px;">
+            <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 40px; margin-bottom: 32px;">
+                <div>
+                    <div class="footer-logo">
+                        <span class="logo-wave">~</span>applywave
+                    </div>
+                    <div style="display: flex; margin-top: 24px;">
+                        <a href="#" class="social-icon"><i class="fab fa-instagram"></i></a>
+                        <a href="#" class="social-icon"><i class="fab fa-facebook"></i></a>
+                        <a href="#" class="social-icon"><i class="fab fa-linkedin"></i></a>
+                        <a href="#" class="social-icon"><i class="fas fa-user-friends"></i></a>
+                    </div>
+                </div>
+
+                <div>
+                    <h3 class="footer-heading">About Us</h3>
+                    <a href="#" class="footer-links">Our Story</a>
+                    <a href="#" class="footer-links">Our Team</a>
+                </div>
+
+                <div>
+                    <h3 class="footer-heading">Partner With Us</h3>
+                    <a href="#" class="footer-links">Institutions</a>
+                    <a href="#" class="footer-links">Agencies</a>
+                    <a href="#" class="footer-links">Contact Us</a>
+                </div>
+
+                <div>
+                    <h3 class="footer-heading">Resources</h3>
+                    <a href="#" class="footer-links">Blog</a>
+                </div>
+            </div>
+
+            <div class="copyright">
+                Copyright © 2025 APPLYWAVE. All Rights Reserved.
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Initialize Leaflet Map
+        const map = L.map('map').setView([39.8283, -98.5795], 4);
+
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '<a href="https://leaflet.github.io">Leaflet</a> | © <a href="https://www.mapbox.com/">Mapbox</a> © <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+        }).addTo(map);
+
+        // Add markers for schools
+        const schoolLocations = [
+            [40.7128, -74.0060], [34.0522, -118.2437], [41.8781, -87.6298],
+            [29.7604, -95.3698], [33.4484, -112.0740], [39.9526, -75.1652],
+            [29.4241, -98.4936], [32.7767, -96.7970], [37.3382, -121.8863],
+            [30.2672, -97.7431], [43.6532, -79.3832], [45.5017, -73.5673],
+            [49.2827, -123.1207], [51.0447, -114.0719], [53.5461, -113.4938],
+            [45.4215, -75.6972], [49.8951, -97.1384], [43.2557, -79.8711],
+            [42.9849, -81.2453], [51.2538, -85.3232]
+        ];
+
+        const blueIcon = L.divIcon({
+            className: 'custom-marker',
+            html: '<div style="background: #1976d2; width: 30px; height: 30px; border-radius: 50% 50% 50% 0; transform: rotate(-45deg); border: 3px solid white; box-shadow: 0 2px 5px rgba(0,0,0,0.3);"><div style="background: white; width: 10px; height: 10px; border-radius: 50%; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);"></div></div>',
+            iconSize: [30, 30],
+            iconAnchor: [15, 30]
+        });
+
+        schoolLocations.forEach(location => {
+            L.marker(location, {icon: blueIcon}).addTo(map);
+        });
+
+        // Study level card click handler
+        document.querySelectorAll('.study-level-card').forEach(card => {
+            card.addEventListener('click', function() {
+                document.querySelectorAll('.study-level-card').forEach(c => c.classList.remove('active'));
+                this.classList.add('active');
+            });
+        });
+
+        // Video play button
+        document.querySelector('.play-button').addEventListener('click', function() {
+            alert('Video would play here');
+        });
+    </script>
+</body>
+</html>
