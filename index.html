@@ -8,6 +8,122 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.js"></script>
     <style>
+                .main-wrapper {
+                    display: flex;
+                    flex-direction: column;
+                    min-height: 100vh;
+                }
+                .nav-container {
+                    max-width: 1280px;
+                    margin: 0 auto;
+                    padding: 0 24px;
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: center;
+                    height: 72px;
+                }
+                .nav-actions {
+                    display: flex;
+                    align-items: center;
+                    gap: 16px;
+                }
+                .hero-inner {
+                    max-width: 1280px;
+                    margin: 0 auto;
+                    padding: 128px 24px 64px 24px;
+                }
+                .hero-title {
+                    text-align: center;
+                    margin-bottom: 48px;
+                }
+                .hero-title h1 {
+                    font-size: 3.75rem;
+                    font-weight: bold;
+                    color: white;
+                    margin-bottom: 16px;
+                    line-height: 1.2;
+                }
+                .study-level-section {
+                    margin-bottom: 32px;
+                }
+                .study-level-header {
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    margin-bottom: 24px;
+                    color: white;
+                    font-size: 1.125rem;
+                    font-weight: 600;
+                    gap: 12px;
+                }
+                .study-level-cards {
+                    display: grid;
+                    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+                    gap: 16px;
+                    max-width: 1000px;
+                    margin: 0 auto;
+                }
+                .search-section {
+                    max-width: 1000px;
+                    margin: 0 auto;
+                }
+                .search-bar {
+                    display: grid;
+                    grid-template-columns: 5fr 5fr 2fr;
+                    gap: 16px;
+                }
+                .search-links {
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: center;
+                    margin-top: 24px;
+                }
+                .content-inner {
+                    max-width: 1280px;
+                    margin: 0 auto;
+                    padding: 0 24px;
+                }
+                .content-grid {
+                    display: grid;
+                    grid-template-columns: 1fr 1fr;
+                    gap: 48px;
+                    align-items: center;
+                }
+                @media (max-width: 900px) {
+                    .content-grid {
+                        grid-template-columns: 1fr;
+                        gap: 32px;
+                    }
+                    .hero-title h1 {
+                        font-size: 2.5rem;
+                    }
+                }
+                @media (max-width: 768px) {
+                    .nav-container {
+                        flex-direction: column;
+                        height: auto;
+                        gap: 12px;
+                    }
+                    .hero-inner {
+                        padding: 96px 8px 32px 8px;
+                    }
+                    .content-inner {
+                        padding: 0 8px;
+                    }
+                    .section-title {
+                        font-size: 32px;
+                    }
+                    .study-level-cards {
+                        grid-template-columns: 1fr;
+                    }
+                    .search-bar {
+                        grid-template-columns: 1fr;
+                    }
+                    .search-links {
+                        flex-direction: column;
+                        gap: 8px;
+                    }
+                }
         @import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;600;700;800&display=swap');
         
         * {
@@ -355,22 +471,18 @@
 <script src="https://app.wotnot.io/chat-widget/3HtdW3W8ZPzR081224776188TpLFmPvH.js" defer></script>
 <body>
     <iframe width="640" height="480" src="https://embed.wotnot.io/3HtdW3W8ZPzR081224776188TpLFmPvH/bot/5ucJpctwuvx20812256017849Jr1k3xS?display_header=false&history_retention=false" frameborder="0"></iframe>
-    <nav class="nav-bar fixed w-full top-0 z-50" style="position: fixed; width: 100%; top: 0; z-index: 50;">
-        <div style="max-width: 1280px; margin: 0 auto; padding: 0 24px;">
-            <div style="display: flex; justify-content: space-between; align-items: center; padding: 16px 0;">
+    <div class="main-wrapper">
+        <nav class="nav-bar fixed w-full top-0 z-50">
+            <div class="nav-container">
                 <div class="logo">
                     <span class="logo-wave">~</span>applywave
                 </div>
-                <div style="display: flex; align-items: center; gap: 16px;">
+                <div class="nav-actions">
                     <a href="ApplyWaveDashBoard.html" class="dashboard-link" title="Go to Dashboard">
                         <i class="fas fa-th-large"></i>
                     </a>
-                    <div style="position: relative;">
-                        <i class="nav-icon fas fa-file-alt"></i>
-                    </div>
-                    <div style="position: relative;">
-                        <i class="nav-icon fas fa-bookmark"></i>
-                    </div>
+                    <i class="nav-icon fas fa-file-alt"></i>
+                    <i class="nav-icon fas fa-bookmark"></i>
                     <div style="position: relative;">
                         <i class="nav-icon fas fa-clipboard-list"></i>
                         <span class="notification-badge">0</span>
@@ -379,105 +491,64 @@
                     <button class="btn-cyan">SIGN UP</button>
                 </div>
             </div>
-        </div>
-    </nav>
+        </nav>
 
-    <!-- Hero Section -->
-    <section class="hero-section" style="padding-top: 128px; padding-bottom: 64px; padding-left: 24px; padding-right: 24px;">
-        <div style="max-width: 1280px; margin: 0 auto;">
-            <div style="text-align: center; margin-bottom: 48px;">
-                <h1 style="font-size: 3.75rem; font-weight: bold; color: white; margin-bottom: 16px; line-height: 1.2;">
-                    The Home of International Students
-                </h1>
-            </div>
-
-            <!-- Study Level Selection -->
-            <div style="margin-bottom: 32px;">
-                <div style="display: flex; align-items: center; justify-content: center; margin-bottom: 24px;">
-                    <i class="fas fa-question-circle" style="color: white; font-size: 1.125rem; margin-right: 12px;"></i>
-                    <span style="color: white; font-size: 1.125rem; font-weight: 600;">What study level should I choose?</span>
+        <!-- Hero Section -->
+        <section class="hero-section">
+            <div class="hero-inner">
+                <div class="hero-title">
+                    <h1>The Home of International Students</h1>
                 </div>
-
-                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 16px; max-width: 1000px; margin: 0 auto;">
-                    <div class="study-level-card">
-                        <i class="fas fa-school"></i>
-                        <div style="font-weight: 600; font-size: 0.875rem;">HIGH SCHOOL</div>
+                <!-- Study Level Selection -->
+                <div class="study-level-section">
+                    <div class="study-level-header">
+                        <i class="fas fa-question-circle"></i>
+                        <span>What study level should I choose?</span>
                     </div>
-                    <div class="study-level-card">
-                        <i class="fas fa-certificate"></i>
-                        <div style="font-weight: 600; font-size: 0.875rem;">CERTIFICATE</div>
-                    </div>
-                    <div class="study-level-card">
-                        <i class="fas fa-diploma"></i>
-                        <div style="font-weight: 600; font-size: 0.875rem;">ASSOCIATE'S DEGREE</div>
-                    </div>
-                    <div class="study-level-card active">
-                        <i class="fas fa-book"></i>
-                        <div style="font-weight: 600; font-size: 0.875rem;">BACHELOR'S DEGREE</div>
-                    </div>
-                    <div class="study-level-card">
-                        <i class="fas fa-user-graduate"></i>
-                        <div style="font-weight: 600; font-size: 0.875rem;">MASTER'S DEGREE</div>
-                    </div>
-                    <div class="study-level-card">
-                        <i class="fas fa-language"></i>
-                        <div style="font-weight: 600; font-size: 0.875rem;">LANGUAGES</div>
+                    <div class="study-level-cards">
+                        <div class="study-level-card"><i class="fas fa-school"></i><div>HIGH SCHOOL</div></div>
+                        <div class="study-level-card"><i class="fas fa-certificate"></i><div>CERTIFICATE</div></div>
+                        <div class="study-level-card"><i class="fas fa-diploma"></i><div>ASSOCIATE'S DEGREE</div></div>
+                        <div class="study-level-card active"><i class="fas fa-book"></i><div>BACHELOR'S DEGREE</div></div>
+                        <div class="study-level-card"><i class="fas fa-user-graduate"></i><div>MASTER'S DEGREE</div></div>
+                        <div class="study-level-card"><i class="fas fa-language"></i><div>LANGUAGES</div></div>
                     </div>
                 </div>
-            </div>
-
-            <!-- Search Bar -->
-            <div style="max-width: 1000px; margin: 0 auto;">
-                <div style="display: grid; grid-template-columns: 5fr 5fr 2fr; gap: 16px;">
-                    <div>
+                <!-- Search Bar -->
+                <div class="search-section">
+                    <div class="search-bar">
                         <input type="text" class="search-input" placeholder="What do you want to study?">
-                    </div>
-                    <div>
                         <input type="text" class="search-input" placeholder="Where do you want to study?">
+                        <button class="search-btn">SEARCH</button>
                     </div>
-                    <div>
-                        <button class="search-btn" style="width: 100%;">SEARCH</button>
+                    <div class="search-links">
+                        <a href="#" class="help-link"><i class="fas fa-question"></i><span>How to use Applywave</span></a>
+                        <a href="#" class="help-link"><i class="fas fa-map-marked-alt"></i><span>Map Search</span></a>
                     </div>
-                </div>
-
-                <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 24px;">
-                    <a href="#" class="help-link">
-                        <i class="fas fa-question"></i>
-                        <span>How to use Applywave</span>
-                    </a>
-                    <a href="#" class="help-link">
-                        <i class="fas fa-map-marked-alt"></i>
-                        <span>Map Search</span>
-                    </a>
                 </div>
             </div>
-        </div>
-    </section>
+        </section>
 
-    <!-- Content Section -->
-    <section class="content-section">
-        <div style="max-width: 1280px; margin: 0 auto; padding: 0 24px;">
-            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 48px; align-items: center;">
-                <div class="video-container">
-                    <div class="video-placeholder">
-                        <div class="play-button">
-                            <i class="fas fa-play"></i>
+        <!-- Content Section -->
+        <section class="content-section">
+            <div class="content-inner">
+                <div class="content-grid">
+                    <div class="video-container">
+                        <div class="video-placeholder">
+                            <div class="play-button">
+                                <i class="fas fa-play"></i>
+                            </div>
                         </div>
                     </div>
-                </div>
-
-                <div>
-                    <h2 class="section-title">Apply to Thousands of Programs in One Trusted Place</h2>
-                    <p class="section-text">
-                        Applywave is trusted by hundreds of Colleges, Universities, and High Schools around the world.
-                    </p>
-                    <p class="section-text">
-                        #FindYourFit and apply to your dream school in a few simple steps!
-                    </p>
+                    <div>
+                        <h2 class="section-title">Apply to Thousands of Programs in One Trusted Place</h2>
+                        <p class="section-text">Applywave is trusted by hundreds of Colleges, Universities, and High Schools around the world.</p>
+                        <p class="section-text">#FindYourFit and apply to your dream school in a few simple steps!</p>
+                    </div>
                 </div>
             </div>
-        </div>
-    </section>
+        </section>
+    </div>
 
     <!-- Map Section -->
     <div id="map" class="map-container"></div>
